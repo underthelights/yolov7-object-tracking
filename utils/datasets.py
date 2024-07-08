@@ -33,7 +33,7 @@ from utils.torch_utils import torch_distributed_zero_first
 # Parameters
 help_url = 'https://github.com/ultralytics/yolov5/wiki/Train-Custom-Data'
 img_formats = ['bmp', 'jpg', 'jpeg', 'png', 'tif', 'tiff', 'dng', 'webp', 'mpo']  # acceptable image suffixes
-vid_formats = ['mov', 'avi', 'mp4', 'mpg', 'mpeg', 'm4v', 'wmv', 'mkv', 'webm']  # acceptable video suffixes
+vid_formats = ['mov', 'avi', 'mp4', 'mpg', 'mpeg', 'm4v', 'wmv', 'mkv']  # acceptable video suffixes
 logger = logging.getLogger(__name__)
 
 # Get orientation exif tag
@@ -315,10 +315,7 @@ class LoadStreams:  # multiple IP or RTSP cameras
                 success, im = cap.retrieve()
                 self.imgs[index] = im if success else self.imgs[index] * 0
                 n = 0
-            if self.fps != 0:
-                time.sleep(1 / self.fps)  # wait time
-            else:
-                time.sleep(0.2)   # in rtsp situation self.fps may be zero. to avoid div by zero, take constant sleep.
+            time.sleep(1 / self.fps)  # wait time
 
     def __iter__(self):
         self.count = -1
